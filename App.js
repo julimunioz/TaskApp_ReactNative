@@ -1,20 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { Text, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import {HomeScreen, TaskFormsScreen} from "./screens";
+
+const Stack = createStackNavigator();
+
+export default function App ()  {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator>
+                
+                <Stack.Screen 
+                    name = "HomeScreen"      
+                    component = { HomeScreen }
+                    options = { ({ navigation }) => ({
+                        title: 'Tasks App',
+                        headerStyle: {backgroundColor: "#222f3e"}, 
+                        headerTitleStyle: {color: '#ffffff'},
+                        headerTitleAlign: 'left',
+                        headerRight: () => (
+                            <TouchableOpacity onPress = { () => navigation.navigate("TaskFormsScreen") }>
+                                <Text style={{color: '#ffffff', marginRight: 20, fontSize: 15}}>New</Text>
+                            </TouchableOpacity>
+                        ),
+                    })}
+                />
+                
+                <Stack.Screen 
+                    name = "TaskFormsScreen" 
+                    component = { TaskFormsScreen } 
+                    options={{
+                        title: 'Create a Task',
+                        headerStyle: {
+                            backgroundColor: '#222f3e'
+                        },
+                        headerTitleStyle: {
+                            color: '#ffffff'
+                        },
+                        headerTintColor: '#ffffff'
+                    }}
+                />
+
+            </Stack.Navigator>
+        </NavigationContainer>
+    )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
